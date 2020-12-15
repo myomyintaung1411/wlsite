@@ -11,21 +11,23 @@
         <nav style>
           <ul class="menu">
             <!-- input form method -->
-            <div style="width: 500px; display: flex">
+            <div style="width: 690px; display: flex">
               <input
                 type="text"
-                style=""
                 class="inputone"
                 placeholder="Account"
-                v-model="loginname"
+                v-model="model.loginname"
+                autocomplete="off"
               />
               <input
                 type="password"
-                style=""
                 class="inputtwo"
                 placeholder="Password"
-                v-model="loginpassword"
+                v-model="model.loginpassword"
+                autocomplete="off"
               />
+
+              <!-- logout btn-->
 
               <div
                 style="
@@ -35,6 +37,31 @@
                   cursor: pointer;
                   margin-right: 15px;
                 "
+                v-if="this.$store.state.login == true"
+              >
+                <img
+                  src="../assets/images/btnborder.png"
+                  alt=""
+                  style="width: 80px; height: 35.65px"
+                  @click="Logout()"
+                />
+                <p style="position: absolute; color: red" @click="Logout()">
+                  <!-- Logout -->
+                  登出
+                </p>
+              </div>
+
+              <!-- login btn -->
+
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  cursor: pointer;
+                  margin-right: 15px;
+                "
+                v-if="this.$store.state.login == false"
               >
                 <img
                   src="../assets/images/btnborder.png"
@@ -43,6 +70,7 @@
                   @click="Login()"
                 />
                 <p style="position: absolute; color: red" @click="Login()">
+                  <!-- Login -->
                   登录
                 </p>
               </div>
@@ -54,7 +82,7 @@
                   align-items: center;
                   cursor: pointer;
                 "
-                @click="GoRegister"
+                @click="RegisterDialog"
               >
                 <img
                   src="../assets/images/btnborder.png"
@@ -63,22 +91,60 @@
                 />
                 <p style="position: absolute; color: white">注册</p>
               </div>
+              <!-- payment -->
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  cursor: pointer;
+                  margin-left: 15px;
+                "
+                @click="PaymentDialog"
+              >
+                <img
+                  src="../assets/images/btnborder.png"
+                  alt=""
+                  style="width: 80px; height: 35.65px"
+                />
+                <p style="position: absolute; color: white">付款</p>
+              </div>
+
+              <!-- withdraw btn -->
+
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  cursor: pointer;
+                  margin-left: 15px;
+                "
+                @click="withDrawDialog"
+              >
+                <img
+                  src="../assets/images/btnborder.png"
+                  alt=""
+                  style="width: 80px; height: 35.65px"
+                />
+                <p style="position: absolute; color: white">提款</p>
+              </div>
             </div>
 
             <li class="menu__item" @click="GoToQQ()">
               <a href="#" class="menu__link">
                 <span class="menu__title">
-                  <span class="menu__first-word" data-hover="电脑">电脑</span>
-                  <span class="menu__second-word" data-hover="软件">软件</span>
+                  <span class="menu__first-word" data-hover="现场">现场</span>
+                  <span class="menu__second-word" data-hover="游戏">游戏</span>
                 </span>
               </a>
             </li>
 
-            <li class="menu__item" @click="GoplayGround()">
+            <li class="menu__item" @click="GoDownapp()">
               <a href="#" class="menu__link">
                 <span class="menu__title">
-                  <span class="menu__first-word" data-hover="立即">立即</span>
-                  <span class="menu__second-word" data-hover="游戏">游戏</span>
+                  <span class="menu__first-word" data-hover="APP">APP</span>
+                  <span class="menu__second-word" data-hover="下载">下载</span>
                 </span>
               </a>
             </li>
@@ -90,12 +156,13 @@
         </div> -->
 
         <!-- green button -->
-        <div class="test">
-          <span style="color: white; cursor: pointer">免费试玩</span>
+        <div class="test" @click="gotoTestGame">
+          <span style="" class="btn-reflat">免费试玩</span>
         </div>
       </div>
     </el-header>
 
+    <!-- register dialog -->
     <el-dialog
       title
       :visible.sync="dialogFormVisible"
@@ -127,7 +194,7 @@
           @submit.native.prevent
           size="small"
         >
-          <el-form-item prop="name" style="margin-top: 40px">
+          <el-form-item prop="name" style="margin-top: 45px">
             <el-input
               type="text"
               v-model="ruleForm.name"
@@ -161,8 +228,7 @@
 
           <el-form-item prop="phone" style="margin-top: 30px">
             <el-input
-              placeholder="123-45-678"
-              type="number"
+              placeholder="请输入手机号"
               v-model="ruleForm.phone"
               autocomplete="off"
               style="width: 300px"
@@ -187,27 +253,177 @@
         </el-form>
       </div>
     </el-dialog>
+
+    <!-- payment dialog -->
+    <el-dialog
+      title
+      :visible.sync="paymentFormDialog"
+      width="450px"
+      style="top: 18%"
+      custom-class="role-mask"
+      v-if="this.$store.state.login == true"
+    >
+      <div
+        style="display:flex;flex:direction:column;justify-content:center;text-align:center;
+  
+        "
+      >
+        <img
+          src="../assets/images/logo.png"
+          alt
+          style="
+            width: 110px;
+            height: 80px;
+            position: absolute;
+            top: 10px;
+            padding-top: 5px;
+          "
+        />
+        <el-form class="demo-ruleForm" @submit.native.prevent size="small">
+          <el-form-item prop="" style="margin-top: 35px">
+            <div style="font-size: 20px; font-weight: 700">
+              {{ this.$Global.myLoginInfo.loginName }}
+            </div>
+          </el-form-item>
+
+          <el-form-item style="margin-top: 10px">
+            <el-input
+              placeholder="请输入转账金额"
+              v-model="ruleForm.paymentMoney"
+              autocomplete="off"
+              type="number"
+              style="width: 300px"
+              :clearable="true"
+            ></el-input>
+          </el-form-item>
+
+          <el-button
+            type
+            @click="submitPayment()"
+            style="
+              margin-top: 20px;
+              margin-bottom: 50px;
+              background-color: #212121;
+              color: white;
+              font-size: bold;
+              width: 300px;
+              border: none;
+            "
+            >立即支付</el-button
+          >
+        </el-form>
+      </div>
+    </el-dialog>
+
+    <!-- withdraw dialog -->
+
+    <el-dialog
+      title
+      :visible.sync="withdrawDialogVisible"
+      width="450px"
+      style="top: 18%"
+      custom-class="role-mask"
+    >
+      <div
+        style="display:flex;flex:direction:column;justify-content:center;text-align:center;
+  
+        "
+      >
+        <img
+          src="../assets/images/logo.png"
+          alt
+          style="
+            width: 110px;
+            height: 80px;
+            position: absolute;
+            top: 10px;
+            padding-top: 5px;
+          "
+        />
+        <el-form class="demo-ruleForm" @submit.native.prevent size="small">
+          <el-form-item style="margin-top: 45px">
+            <el-input
+              type="text"
+              v-model="ruleForm.bankname"
+              autocomplete="off"
+              placeholder="请输入银行名称"
+              style="width: 300px"
+              :clearable="true"
+            ></el-input>
+          </el-form-item>
+          <el-form-item style="margin-top: 30px">
+            <el-input
+              placeholder="请输入银行账户名称"
+              type="text"
+              v-model="ruleForm.bankaccount"
+              autocomplete="off"
+              style="width: 300px"
+              :clearable="true"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item style="margin-top: 30px">
+            <el-input
+              placeholder="请输入银行账号"
+              type="number"
+              v-model="ruleForm.bankcard"
+              autocomplete="off"
+              style="width: 300px"
+              :clearable="true"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item style="margin-top: 30px">
+            <el-input
+              placeholder="请输入取款金额"
+              v-model="ruleForm.withdrawmoneyamount"
+              autocomplete="off"
+              type="number"
+              style="width: 300px"
+              :clearable="true"
+            ></el-input>
+          </el-form-item>
+
+          <el-button
+            type
+            @click="submitWithDraw()"
+            style="
+              margin-top: 20px;
+              margin-bottom: 50px;
+              background-color: #212121;
+              color: white;
+              font-size: bold;
+              width: 300px;
+              border: none;
+            "
+            >立即取款</el-button
+          >
+        </el-form>
+      </div>
+    </el-dialog>
   </el-container>
 </template>
 
 <script>
+import AES from "@/api/aes";
+// import moment from "moment";
 export default {
   data() {
     var checkName = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("Please input the name"));
+        return callback(new Error("请输入账号"));
       }
     };
 
     var checkPhone = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("Please input the phone number"));
+        return callback(new Error("请输入手机号"));
       }
     };
 
     var validatePass = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the password"));
+        callback(new Error("请输入密码"));
       } else {
         if (this.ruleForm.checkPass !== "") {
           this.$refs.ruleForm.validateField("checkPass");
@@ -218,25 +434,38 @@ export default {
 
     var validatePass2 = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the password again"));
+        callback(new Error("请输入确认密码"));
       } else if (value !== this.ruleForm.pass) {
-        callback(new Error("Two inputs don't match!"));
+        callback(new Error("两次输入密码不一致！"));
       } else {
         callback();
       }
     };
 
     return {
-      loginname: "",
-      loginpassword: "",
-      loginphone: "",
+      model: {
+        //login data
+        loginname: "",
+        loginpassword: "",
+        loginphone: "",
+      },
 
+      paymentFormDialog: false,
+      withdrawDialogVisible: false,
       dialogFormVisible: false,
       ruleForm: {
+        //register data
         pass: "",
         checkPass: "",
         name: "",
         phone: "",
+        //request fo payment data
+        paymentMoney: "",
+        //withdraw data
+        bankname: "",
+        bankaccount: "",
+        bankcard: "",
+        withdrawmoneyamount: "",
       },
 
       rules: {
@@ -247,15 +476,121 @@ export default {
       },
     };
   },
-
+  // mounted() {
+  //   this.calculateTime();
+  // },
   methods: {
     GoToQQ() {
       document.querySelector(".poster").scrollIntoView();
     },
-    GoplayGround() {
-      document.querySelector(".qq").scrollIntoView();
+    GoDownapp() {
+      document.querySelector(".gameapp").scrollIntoView();
     },
+
+    //go to test game site
+    gotoTestGame() {
+      window.open(`http://wl2021.com/?token=`);
+    },
+
+    //withdraw payment method
+    submitWithDraw() {
+      if (this.ruleForm.bankname == "")
+        return this.$message.warning("请输入银行名称");
+      if (this.ruleForm.bankname.length < 4)
+        return this.$message.warning("银行名称应有四位数");
+
+      if (this.ruleForm.bankaccount == "")
+        return this.$message.warning("账户名称不能为空！");
+
+      if (this.ruleForm.bankaccount.length < 2)
+        return this.$message.warning("账户名称最少两位数");
+
+      if (this.ruleForm.bankcard == "")
+        return this.$message.warning("银行卡号不能为空！");
+      if (this.ruleForm.bankcard.length < 16)
+        return this.$message.warning("银行卡号至少16位！");
+
+      if (this.ruleForm.withdrawmoneyamount == "")
+        return this.$message.warning("请输入取款金额");
+      if (this.ruleForm.withdrawmoneyamount < 100)
+        return this.$message.warning("取款金额不能少于100元");
+
+      //  this data is for create sign key of withdraw money
+      //withdraw en
+      let withdrawEn = this.$Global.withdrawEn;
+      let data = {
+        id: this.$Global.myLoginInfo.loginId,
+        bank_name: this.ruleForm.bankname,
+        bank_account: this.ruleForm.bankaccount,
+        bank_card: this.ruleForm.bankcard,
+        amount: this.ruleForm.withdrawmoneyamount, // $amount,
+      };
+      var endata = AES.payEncrypt(JSON.stringify(data), withdrawEn);
+      this.axios
+        .post(`${this.$Global.Withdrawurl}?d=${endata}`)
+        .then((res) => {
+          var body = res.data;
+          if (body.status == "200") {
+            this.ruleForm.bankname = "";
+            this.ruleForm.bankaccount = "";
+            this.ruleForm.bankcard = "";
+            this.ruleForm.withdrawmoneyamount = "";
+            this.withdrawDialogVisible = false;
+            return this.$message.success(body.msg);
+          } else {
+            return this.$message.error(body.msg);
+          }
+        })
+        .catch((e) => {
+          // console.log(e);
+          this.$message.error(e.toString());
+        });
+    },
+
+    //submit payment
+    submitPayment() {
+      if (this.ruleForm.paymentMoney == "")
+        return this.$message.warning("付款金额不能为空！");
+
+      if (this.ruleForm.paymentMoney < 100)
+        return this.$message.warning("付款金额不能少于100元");
+
+      //payment en
+      let paymentEn = this.$Global.paymentEn;
+      let data = {
+        id: this.$Global.myLoginInfo.loginId,
+        m: this.ruleForm.paymentMoney,
+      };
+      // var endata = "sZHOqLO6s7O5Lyw+VysKzDHev00mwbp6yj6JabuehTq3K3ixgvz5IHSY14QKfrZumY2cWSuiQrppMSflR4DpNg=="
+      var endata = AES.payEncrypt(JSON.stringify(data), paymentEn);
+    //  console.log(endata, "endata is of payment is ***************************");
+    
+      this.axios
+        .post(`${this.$Global.PaymentUrl}?d=${endata}`)
+        .then((res) => {
+          var body = res.data;
+          // console.log(body, "response body of payment **************");
+          if (body.status == "200") {
+            window.open(body.pay_url);
+            //return success here
+            this.ruleForm.paymentMoney = "";
+            this.paymentFormDialog = false;
+          }
+          //response error msg
+          else {
+            return this.$message.error(body.msg);
+          }
+        })
+        .catch((e) => {
+          // console.log(e);
+
+          this.$message.error(e.toString());
+        });
+    },
+    //user register
     submitRegister() {
+      var en = this.$Global.en;
+
       if (this.ruleForm.name == "") return this.$message.warning("请输入账号");
       if (this.ruleForm.pass == "") return this.$message.warning("请输入密码");
       if (this.ruleForm.checkPass == "")
@@ -265,54 +600,134 @@ export default {
       if (this.ruleForm.pass !== this.ruleForm.checkPass)
         return this.$message.warning("两次输入密码不一致");
 
-      console.log("11111111111111");
+      if (
+        !/^((1[3,5,8,7,9][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/.test(
+          this.ruleForm.phone
+        )
+      ) {
+        return this.$message.warning("手机号码格式不对");
+      }
+      var agentName = this.$Global.optioner.Agentname;
+      // console.log(agentName,"name of agent is777777777")
+
       let data = {
         name: this.ruleForm.name,
-        pw: this.ruleForm.pass,
+        pw: this.$md5(this.ruleForm.pass),
         phone: this.ruleForm.phone,
+        agent: agentName,
       };
 
-      if (this.data == null) {
-        console.log("nulllllllllllllll");
-      } else {
-        console.log(data, "222222222222");
-        this.axios
-          .post(this.$Global.registerurl, data)
-          .then((res) => {
-            console.log("result", res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-    },
+      let endata = AES.encrypt(JSON.stringify(data), en);
 
-    GoRegister() {
-      this.dialogFormVisible = true;
-    },
-    Login() {
-      if (this.loginname == "") return this.$message.warning("请输入账号");
-      if (this.loginpassword == "") return this.$message.warning("请输入密码");
-      // if (this.logindata == null) {
-      //   this.$message({
-      //     showClose: true,
-      //     message: "Field is Empty",
-      //     type: "error",
-      //   });
-      // }
+      var decryptdata = JSON.parse(AES.decrypt(endata, en));
 
-      // console.log(logindata, "222222222222");
-      let logindata = {
-        name: this.loginname,
-        pw: this.loginpassword,
-      };
       this.axios
-        .post(this.$Global.loginurl, logindata)
+        .post(this.$Global.registerurl, decryptdata)
         .then((res) => {
-          console.log("result", res);
+          var body = res.data;
+          var msg = JSON.parse(AES.decrypt(body, en));
+          //  console.log(msg, "77777777777777777777")
+          if (msg.JsonData.result == "102") {
+            return this.$message.warning("无此代理");
+          }
+          if (msg.JsonData.result == "103") {
+            return this.$message.warning("已存在此帐号");
+          }
+          if (msg.JsonData.result == "104") {
+            return this.$message.warning("注册失败");
+          }
+          if (msg.JsonData.result == "101") {
+            this.ruleForm.name = "";
+            this.ruleForm.pass = "";
+            this.ruleForm.checkPass = "";
+            this.ruleForm.phone = "";
+            this.dialogFormVisible = false;
+            return this.$message.success("注册成功");
+          }
         })
         .catch((e) => {
-          console.log(e);
+          // console.log(e);
+          this.$message.error(e.toString());
+        });
+    },
+
+    Logout() {
+      this.$store.state.login == false;
+      this.$Global.myLoginInfo.loginId = "";
+      this.$Global.myLoginInfo.loginBalance = "";
+      this.$Global.myLoginInfo.loginEnable = "";
+      this.$Global.myLoginInfo.loginName = "";
+      window.location.reload();
+    },
+
+    RegisterDialog() {
+      this.dialogFormVisible = true;
+    },
+
+    PaymentDialog() {
+      if (this.$store.state.login == false) {
+        return this.$message.warning("请先登录");
+      }
+      this.paymentFormDialog = true;
+    },
+    withDrawDialog() {
+      if (this.$store.state.login == false) {
+        return this.$message.warning("请先登录");
+      }
+      this.withdrawDialogVisible = true;
+    },
+    //user login method
+    Login() {
+      var en = this.$Global.en;
+      if (this.model.loginname == "")
+        return this.$message.warning("请输入账号");
+      if (this.model.loginpassword == "")
+        return this.$message.warning("请输入密码");
+      let logindata = {
+        name: this.model.loginname,
+        pw: this.$md5(this.model.loginpassword),
+      };
+
+      let endata = AES.encrypt(JSON.stringify(logindata), en);
+
+      // console.log("login endata isssssssss", endata);
+
+      var decryptdata = JSON.parse(AES.decrypt(endata, en));
+      // console.log("decryptdata isssssssss", decryptdata, en);
+
+      this.axios
+        .post(this.$Global.loginurl, decryptdata)
+        .then((res) => {
+          var body = res.data;
+          // console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaaa",body)
+          var msg = JSON.parse(AES.decrypt(body, en));
+          // console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaaa",msg)
+          if (msg.JsonData.code == 200) {
+            this.$store.state.login = true;
+            //here i am store user input name and pass to state
+            this.$store.state.myAccount = this.model.loginname;
+            this.$store.state.myPassword = this.model.loginpassword;
+            //here i am storing user response information to global
+            this.$Global.myLoginInfo.loginId = msg.JsonData.Id;
+            this.$Global.myLoginInfo.loginBalance = msg.JsonData.balance;
+            this.$Global.myLoginInfo.loginEnable = msg.JsonData.enable;
+            this.$Global.myLoginInfo.loginName = msg.JsonData.username;
+            // console.log(
+            //   "account and password is -------->",
+            //   this.$store.state.myPassword,
+            //   this.$store.state.myAccount
+            // );
+            this.model.loginname = "";
+            this.model.loginpassword = "";
+            return this.$message.success("登录成功");
+          } else {
+            // console.log("error ocuured")
+            return this.$message.error("登录失败");
+          }
+        })
+        .catch((e) => {
+          // console.log(e);
+          this.$message.error(e.toString());
         });
     },
   },
@@ -334,6 +749,7 @@ export default {
   height: 100% !important;
   display: flex;
   position: relative;
+  // background:red;
 }
 
 a {
@@ -425,6 +841,11 @@ a {
   align-items: center;
   justify-content: center;
   height: 75px;
+}
+
+.btn-reflat {
+  color: white;
+  cursor: pointer;
 }
 </style>
 

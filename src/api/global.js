@@ -1,53 +1,75 @@
-  const UserName="";
-  const Id="";
-  export default
+// eslint-disable-next-line no-unused-vars
+const UserName = "";
+// eslint-disable-next-line no-unused-vars
+const Id = "";
+var BASE_URL = "http://114.29.253.162:3198/";
+export default
   {
-    optioner:{
-       UserName:"",
-       Id:"",
-       arrJsb: [],
-       optionScore: 0,
-       xmb_s: "",
-       xmb_d: "",
-       zcb: "",
-       xmType: "",
-       level:2,
-       webSit:"",
-       token:"",
-       pw:"",
-       enable:1
+    optioner: {
+      Agentid: '',
+      Agentname: "",
     },
-   
-    registerurl: " http://114.29.253.162:3198/regist",
-    loginurl:    "http://114.29.253.162:3198/login ",
-    agentUrl:    "http://114.29.253.162:3198/getAgentInfo ",
 
+    myLoginInfo: {
+      loginId: "",
+      loginName: '',
+      loginBalance: '',
+      loginEnable: ''
+    },
+  
+    registerurl: BASE_URL + 'regist',
+    loginurl :  BASE_URL + 'login',
+    agentUrl: BASE_URL + 'getAgentInfo ',
+    scrollData:  BASE_URL + 'getBulletin',
+    PaymentUrl:'http://wlzh.hn885.com/payment/xjw/pay',
+    PaymentCallbackUrl: BASE_URL + 'pay',
+    Withdrawurl:'http://wlzh.hn885.com/payment/xjw/draw',
+    WithDrawCallbackUrl: BASE_URL +'draw',
+
+    // https://api.zf166.cc
+    //sending oid partner to api data
+    Oid_Partner: 'd9fce17200317431b1b43b27508224cf0294759a',
     // selectInfo: {
     //    selectAgent: "",
     //    selectItem: "",
     //    xmb_d:"",
     //    xmb_s:"",
     // },
-    addPwStr:"$hn_ok$my_ok$hn_ok",
+    addPwStr: "$hn_ok$my_ok$hn_ok",
     en: {
       key: "@hKe9@A1lKe9$Tz1kE@8HnG7",
-      iv: 3,
+      iv: '1234567890123456'
     },
-    listDataMember:{
+    gameEn: {
+      key: "@hKe9@A1lKe9$Tz1kE@8HnG7",
+      iv: '1234567890123456'
+    },
+
+    paymentEn: {
+      key: "@hKe9@A1lKe9$Tz1kE@8HnG7",
+      iv: '1234567890123456'
+    },
+
+    withdrawEn: {
+      key: "@hKe9@A1lKe9$Tz1kE@8HnG7",
+      iv: '1234567890123456'
+    },
+    
+    listDataMember: {
       memberListData: [],
       totalMemberCount: 0
     },
-    shanji:{
+    shanji: {
       memberListData: [],
       totalMemberCount: 0
     },
     //提醒聊天记录
-    noticeMessage:[
+    noticeMessage: [
       // { "id": 1026, "msg" : "这是FromMember", "msgType" : 0, "userId": "19509", "name":"222", "nickname": "" },
       // { "id": 1029, "msg" : "是测试消息Member", "msgType" : 0, "userId": "19528", "name":"222", "nickname": "" }
     ],
     /**聊天记录 */
-    chatRecord:[
+    chatRecord: [
       // {
       //    msgType: "1",
       //    userId: "id-1",
@@ -65,39 +87,39 @@
       //    // imgHeadUrl: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
       //  }
     ],
-    EXPS:[
-      { file: '100.gif', code: '/::)', title: '微笑',reg:/\/::\)/g },
-      { file: '101.gif', code: '/::~', title: '伤心',reg:/\/::~/g },
-      { file: '102.gif', code: '/::B', title: '美女',reg:/\/::B/g },
-      { file: '103.gif', code: '/::|', title: '发呆',reg:/\/::\|/g },
-      { file: '104.gif', code: '/:8-)', title: '墨镜',reg:/\/:8-\)/g },
-      { file: '105.gif', code: '/::<', title: '哭',reg:/\/::</g },
-      { file: '106.gif', code: '/::$', title: '羞',reg:/\/::\$/g },
-      { file: '107.gif', code: '/::X', title: '哑',reg:/\/::X/g },
-      { file: '108.gif', code: '/::Z', title: '睡',reg:/\/::Z/g },
-      { file: '109.gif', code: '/::\'(', title: '哭',reg:/\/::'\(/g },
-      { file: '110.gif', code: '/::-|', title: '囧',reg:/\/::-\|/g },
-      { file: '111.gif', code: '/::@', title: '怒',reg:/\/::@/g },
-      { file: '112.gif', code: '/::P', title: '调皮',reg:/\/::P/g },
-      { file: '113.gif', code: '/::D', title: '笑',reg:/\/::D/g },
-      { file: '114.gif', code: '/::O', title: '惊讶',reg:/\/::O/g },
-      { file: '115.gif', code: '/::(', title: '难过',reg:/\/::\(/g },
-      { file: '116.gif', code: '/::+', title: '酷',reg:/\/::\+/g },
-      { file: '117.gif', code: '/:--b', title: '汗',reg:/\/:--b/g },
-      { file: '118.gif', code: '/::Q', title: '抓狂',reg:/\/::Q/g },
-      { file: '119.gif', code: '/::T', title: '吐',reg:/\/::T/g },
-      { file: '120.gif', code: '/:,@P', title: '笑',reg:/\/:,@P/g },
-      { file: '121.gif', code: '/:,@-D', title: '快乐',reg:/\/:,@-D/g },
-      { file: '122.gif', code: '/::d', title: '奇',reg:/\/::d/g },
-      { file: '123.gif', code: '/:,@o', title: '傲' ,reg:/\/:,@o/g},
-      { file: '124.gif', code: '/::g', title: '饿',reg:/\/::g/g },
-      { file: '125.gif', code: '/:|-)', title: '累' ,reg:/\/:\|-\)/g},
-      { file: '126.gif', code: '/::!', title: '吓',reg:/\/::!/g },
-      { file: '127.gif', code: '/::L', title: '汗',reg:/\/::L/g },
-      { file: '128.gif', code: '/::>', title: '高兴',reg:/\/::>/g  },
-      { file: '129.gif', code: '/::,@', title: '闲',reg:/\/::,@/g  },
-      { file: '130.gif', code: '/:,@f', title: '努力' ,reg:/\/:,@f/g },
-      { file: '131.gif', code: '/::-S', title: '骂' ,reg:/\/::-S/g },
+    EXPS: [
+      { file: '100.gif', code: '/::)', title: '微笑', reg: /\/::\)/g },
+      { file: '101.gif', code: '/::~', title: '伤心', reg: /\/::~/g },
+      { file: '102.gif', code: '/::B', title: '美女', reg: /\/::B/g },
+      { file: '103.gif', code: '/::|', title: '发呆', reg: /\/::\|/g },
+      { file: '104.gif', code: '/:8-)', title: '墨镜', reg: /\/:8-\)/g },
+      { file: '105.gif', code: '/::<', title: '哭', reg: /\/::</g },
+      { file: '106.gif', code: '/::$', title: '羞', reg: /\/::\$/g },
+      { file: '107.gif', code: '/::X', title: '哑', reg: /\/::X/g },
+      { file: '108.gif', code: '/::Z', title: '睡', reg: /\/::Z/g },
+      { file: '109.gif', code: '/::\'(', title: '哭', reg: /\/::'\(/g },
+      { file: '110.gif', code: '/::-|', title: '囧', reg: /\/::-\|/g },
+      { file: '111.gif', code: '/::@', title: '怒', reg: /\/::@/g },
+      { file: '112.gif', code: '/::P', title: '调皮', reg: /\/::P/g },
+      { file: '113.gif', code: '/::D', title: '笑', reg: /\/::D/g },
+      { file: '114.gif', code: '/::O', title: '惊讶', reg: /\/::O/g },
+      { file: '115.gif', code: '/::(', title: '难过', reg: /\/::\(/g },
+      { file: '116.gif', code: '/::+', title: '酷', reg: /\/::\+/g },
+      { file: '117.gif', code: '/:--b', title: '汗', reg: /\/:--b/g },
+      { file: '118.gif', code: '/::Q', title: '抓狂', reg: /\/::Q/g },
+      { file: '119.gif', code: '/::T', title: '吐', reg: /\/::T/g },
+      { file: '120.gif', code: '/:,@P', title: '笑', reg: /\/:,@P/g },
+      { file: '121.gif', code: '/:,@-D', title: '快乐', reg: /\/:,@-D/g },
+      { file: '122.gif', code: '/::d', title: '奇', reg: /\/::d/g },
+      { file: '123.gif', code: '/:,@o', title: '傲', reg: /\/:,@o/g },
+      { file: '124.gif', code: '/::g', title: '饿', reg: /\/::g/g },
+      { file: '125.gif', code: '/:|-)', title: '累', reg: /\/:\|-\)/g },
+      { file: '126.gif', code: '/::!', title: '吓', reg: /\/::!/g },
+      { file: '127.gif', code: '/::L', title: '汗', reg: /\/::L/g },
+      { file: '128.gif', code: '/::>', title: '高兴', reg: /\/::>/g },
+      { file: '129.gif', code: '/::,@', title: '闲', reg: /\/::,@/g },
+      { file: '130.gif', code: '/:,@f', title: '努力', reg: /\/:,@f/g },
+      { file: '131.gif', code: '/::-S', title: '骂', reg: /\/::-S/g },
       // { file: '132.gif', code: '/:?', title: '疑问' ,reg:/\/:?/g },
       // { file: '133.gif', code: '/:,@x', title: '秘密' },
       // { file: '134.gif', code: '/:,@@', title: '乱' },
@@ -166,5 +188,5 @@
       // { file: '197.gif', code: '/:turn', title: '背着' },
       // { file: '198.gif', code: '/:skip', title: '伸手' },
       // { file: '199.gif', code: '/:oY', title: '耍帅' }
-  ],
+    ],
   }
